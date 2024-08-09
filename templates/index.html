@@ -26,20 +26,6 @@
             padding: 1em;
         }
 
-        a {
-            color: red;
-        }
-
-        a:hover {
-            color: red;
-        }
-
-        h5, ul, li {
-            line-height: 1.6;
-            color: #FF1493;
-        }
-
-
         section {
             max-width: 800px;
             margin: 20px auto;
@@ -58,9 +44,20 @@
             width: 65%;
         }
 
+        a {
+            color: red;
+        }
+
+        a:hover {
+            color: red;
+        }
+
+        h5, ul, li {
+            line-height: 1.6;
+            color: #FF1493;
+        }
     </style>
 </head>
-
 <body>
     <header>The Chat History Page Having Your Searches</header>
     <section>
@@ -74,22 +71,17 @@
                     {% endfor %}
                 </ul>
             </main>
-
             <form action="/clear_history" method="POST" align="center">
                 <input
                     type="submit"
                     value="Clear History">
             </form>
         </section>
-
         <h5 align="center"><button class="btn btn-primary"><a href = "{{ url_for('home') }}">Homepage</a></button></h5>
-
         <footer>
             <p>&copy; 2024 Dev_aladinh production</p>
         </footer>
-
     </section>
 </body>
 </html>
-
 {% endblock %}
