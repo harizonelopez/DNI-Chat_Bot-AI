@@ -47,7 +47,7 @@ def chatbot_response(user_input):
     response = None
     error_message = "OOPS!! The text seems not to be found in the database."
     
-    # Iterate through pairs to find a matching pattern
+    # Iterate through the pairs to find a matching pattern
     for pair in pairs:
         keywords = pair[0].lower().split('|')  # Get the pattern keywords
         for keyword in keywords:
