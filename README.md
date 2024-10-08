@@ -70,14 +70,5 @@ The primary goal of this project is to demonstrate the use of Flask for building
 - The chatbot will respond based on predefined patterns.
 - You can view the chat history or clear it using the provided options.
 
-## Customization
 
-### Adding New Responses
-
-To add new responses, you can modify the `pairs` list in the `app.py` file:
-
-```python
-pairs = [
-    # Add your custom patterns and responses here
-    ["your pattern", ["response 1", "response 2"]],
 ]
