@@ -49,10 +49,11 @@ def chatbot_response(user_input):
     
     # Iterate through the pairs to find a matching pattern
     for pair in pairs:
-        keywords = pair[0].lower().split('|')  # Get the pattern keywords
+        keywords = pair[0].lower().split('|')  
         for keyword in keywords:
-            keyword_tokens = preprocess(keyword)  # Preprocess the keyword as well
-            if set(keyword_tokens).issubset(set(tokens)):  # Check if keyword tokens match user tokens
+            keyword_tokens = preprocess(keyword)  
+            
+            if set(keyword_tokens).issubset(set(tokens)):  
                 response = random.choice(pair[1])
                 break
         if response:
