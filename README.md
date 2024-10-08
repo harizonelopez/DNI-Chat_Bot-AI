@@ -62,22 +62,12 @@ The primary goal of this project is to demonstrate the use of Flask for building
 
 5. **Access the Application**:
 
-    Open your web browser and go to `http://127.0.0.1:5000/`
+    Open your web browser and go to `http://127.0.0.1:5000`
 
 ## Usage
 
 - Navigate to the home page of the chatbot and start typing your messages.
 - The chatbot will respond based on predefined patterns.
-- You can view the chat history or clear it using the provided options.
 
-## Customization
 
-### Adding New Responses
-
-To add new responses, you can modify the `pairs` list in the `app.py` file:
-
-```python
-pairs = [
-    # Add your custom patterns and responses here
-    ["your pattern", ["response 1", "response 2"]],
 ]
