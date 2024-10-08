@@ -71,37 +71,16 @@ def home():
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    user_input = request.form["user_input"]
-    response = chatbot_response(user_input)
+    user_input = request.form.get("user_input").strip()
+    if not user_input:
+        response = "Please enter a valid message"
+    else:
+        response = chatbot_response(user_input)
 
     chat_history.append({"user_input": user_input, "response": response})
     
     return render_template("home.html", user_input=user_input, response=response)
 
-"""
-def chat():
-    user_input = request.form["user_input"].lower()
-    response = None
-    error_message = ""
-    
-    for pair in pairs:
-        keywords = pair[0].lower().split('|')
-        for keyword in keywords:
-            if keyword in user_input:
-                response = random.choice(pair[1])
-                break
-
-        if response:
-            break
-
-    if response is None:
-        error_message = "OOPS!! The text seems not to be found in the database."
-    else:
-        chat_history.append({"user_input": user_input, "response": response})
-
-    print(f"Chat history:", chat_history)
-    return render_template("home.html", user_input=user_input, response=response, error_message=error_message)
-"""
 
 @app.route("/history")
 def history():    
