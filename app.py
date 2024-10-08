@@ -56,7 +56,7 @@ def chatbot_response(user_input):
                 response = random.choice(pair[1])  # Select a random response from matched pair
                 return response  # Return the response immediately after finding a match
     
-    # If no response is found, return the error message
+    # If no response is found, return the error message as the response
     return error_message
 
 
