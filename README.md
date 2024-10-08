@@ -68,6 +68,3 @@ The primary goal of this project is to demonstrate the use of Flask for building
 
 - Navigate to the home page of the chatbot and start typing your messages.
 - The chatbot will respond based on predefined patterns.
-
-
-]
