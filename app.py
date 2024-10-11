@@ -11,6 +11,7 @@ logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'aladinh00-010montext'
 
+"""
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -51,8 +52,8 @@ def chatbot_response(user_input):
     return next((random.choice(pair[1]) for pair in pairs
                  if any(set(preprocess(keyword)).intersection(tokens) 
                         for keyword in pair[0].lower().split('|'))), error_message)
-
 """
+
 from gensim.models import Word2Vec
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
@@ -82,6 +83,11 @@ def chatbot_response(user_input):
         ("what is Python", "Python is a programming language."),
         ("tell me about Python", "Python is a powerful and versatile programming language."),
         ("how are you", "I'm just a program, but thanks for asking!"),
+        ("hi", "how can I assist you today!"),
+        ("how is you", "I'm doing well, thank you!"),
+        ("who is your developer", "I was developed by Harison.O.O."),
+        ("your welcome", "You're welcome"),
+        ("what is your name", "You can simply call me DNI AI."),
     ]
 
     for question, response in pairs:
@@ -94,7 +100,6 @@ def chatbot_response(user_input):
 
     return best_response if best_response else "Sorry, I couldn't find a match."
 
-"""
 
 @app.route("/")
 def home():
