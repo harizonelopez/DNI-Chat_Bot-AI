@@ -38,6 +38,7 @@ pairs = [
     ["quit|q|close|bye|exit|goodbye", ["Goodbye!", "Bye!", "Nice chatting with you.", "Cool it was nice interacting with you."]],
     ["who is Harison.O.O|harison is who|who is Harison", ["This name refers to my creator and developer, a computer science student at one of the main universities in Kenya", "Harison is a tech student at Murang'a university in Kenya", "Harison is a coding enthusiast who came up with the idea to develop a chatbot called D.N.I."]],
     ["which programming language were you developed of|which programming language was used in your development", ["I was made using Python language.", "It's primarily based on the Python-Flask framework.", "The base language is Python."]],
+    ["what is AI|explain AI|what is artificial intelligence", ["AI stands for Artificial Intelligence, which refers to machines or software mimicking human intelligence.", "Artificial Intelligence involves algorithms that enable machines to solve problems, learn, and make decisions."]],
 ]
 
 chat_history = []
@@ -52,24 +53,48 @@ def chatbot_response(user_input):
                         for keyword in pair[0].lower().split('|'))), error_message)
 
 """
-def chatbot_response(user_input):
-    tokens = preprocess(user_input) 
-    response = None
-    error_message = "OOPS!! The response seems not to be found."
-    
-    for pair in pairs:
-        keywords = pair[0].lower().split('|')  
-        for keyword in keywords:
-            keyword_tokens = preprocess(keyword)  
-            # Check if there's an overlap between the tokens in the user input and the keyword tokens
-            if any(token in tokens for token in keyword_tokens):
-                response = random.choice(pair[1]) 
-                return response  
-    
-    # If no response is found, return the error message as the response
-    return error_message
-"""
+from gensim.models import Word2Vec
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
 
+# Load a pre-trained word2vec model (you can download a pre-trained model like GloVe or Word2Vec)
+model = Word2Vec.load('word2vec.model')
+
+def preprocess(text):
+    # Simple preprocessing like tokenization and lowercasing
+    return [word.lower() for word in text.split() if word.isalpha()]
+
+def get_sentence_vector(sentence):
+    tokens = preprocess(sentence)
+    vectors = [model.wv[word] for word in tokens if word in model.wv]  # Get vectors for each word
+    return np.mean(vectors, axis=0) if vectors else None  # Return the average of the word vectors
+
+def chatbot_response(user_input):
+    user_vector = get_sentence_vector(user_input)
+    if user_vector is None:
+        return "Sorry, I didn't understand that."
+
+    best_response = None
+    best_similarity = 0
+    
+    # Example question-response pairs
+    pairs = [
+        ("what is Python", "Python is a programming language."),
+        ("tell me about Python", "Python is a powerful and versatile programming language."),
+        ("how are you", "I'm just a program, but thanks for asking!"),
+    ]
+
+    for question, response in pairs:
+        question_vector = get_sentence_vector(question)
+        if question_vector is not None:
+            similarity = cosine_similarity([user_vector], [question_vector])[0][0]
+            if similarity > best_similarity:
+                best_similarity = similarity
+                best_response = response
+
+    return best_response if best_response else "Sorry, I couldn't find a match."
+
+"""
 
 @app.route("/")
 def home():
