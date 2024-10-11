@@ -1,10 +1,10 @@
+from flask import Flask, render_template, request, url_for, redirect
 import nltk
 import random
 import logging
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-from flask import Flask, render_template, request, url_for, redirect
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -58,47 +58,39 @@ from gensim.models import Word2Vec
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-# Load a pre-trained word2vec model (you can download a pre-trained model like GloVe or Word2Vec)
-model = Word2Vec.load('word2vec.model')
+from fuzzywuzzy import process
+    
+pairs = [
+    ("what is Python", "Python is a programming language."),
+    ("tell me about Python", "Python is a powerful and versatile programming language."),
+    ("how are you", "I'm just a program, but thanks for asking!"),
+    ("hi", "how can I assist you today!"),
+    ("how is you", "I'm doing well, thank you!"),
+    ("who is your developer", "I was developed by Harison.O.O."),
+    ("your welcome", "You're welcome"),
+    ("what is your name", "You can simply call me DNI AI."),
+]
 
-def preprocess(text):
-    # Simple preprocessing like tokenization and lowercasing
-    return [word.lower() for word in text.split() if word.isalpha()]
+chat_history = []
 
-def get_sentence_vector(sentence):
-    tokens = preprocess(sentence)
-    vectors = [model.wv[word] for word in tokens if word in model.wv]  # Get vectors for each word
-    return np.mean(vectors, axis=0) if vectors else None  # Return the average of the word vectors
+questions = [question for question, _ in pairs]
 
 def chatbot_response(user_input):
-    user_vector = get_sentence_vector(user_input)
-    if user_vector is None:
-        return "Sorry, I didn't understand that."
-
-    best_response = None
-    best_similarity = 0
+    # Get the best match for the user input
+    best_match = process.extractOne(user_input, questions)
+    best_question, score = best_match
     
-    # Example question-response pairs
-    pairs = [
-        ("what is Python", "Python is a programming language."),
-        ("tell me about Python", "Python is a powerful and versatile programming language."),
-        ("how are you", "I'm just a program, but thanks for asking!"),
-        ("hi", "how can I assist you today!"),
-        ("how is you", "I'm doing well, thank you!"),
-        ("who is your developer", "I was developed by Harison.O.O."),
-        ("your welcome", "You're welcome"),
-        ("what is your name", "You can simply call me DNI AI."),
-    ]
+    # If the score is high enough, return the corresponding response
+    if score >= 70:  # You can adjust the threshold as needed
+        index = questions.index(best_question)
+        return pairs[index][1]
+    
+    return "Sorry, I couldn't find a match."
 
-    for question, response in pairs:
-        question_vector = get_sentence_vector(question)
-        if question_vector is not None:
-            similarity = cosine_similarity([user_vector], [question_vector])[0][0]
-            if similarity > best_similarity:
-                best_similarity = similarity
-                best_response = response
-
-    return best_response if best_response else "Sorry, I couldn't find a match."
+# Example usage
+user_input = "Can you tell me about Python?"
+response = chatbot_response(user_input)
+print(response) 
 
 
 @app.route("/")
@@ -125,7 +117,7 @@ def history():
 @app.route("/clear_history", methods=["POST"])
 def clear_history():
     global chat_history
-    chat_history = []
+    # chat_history = []
     return redirect(url_for("history"))
 
 if __name__ == "__main__":
