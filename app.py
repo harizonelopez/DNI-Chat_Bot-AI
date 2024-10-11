@@ -29,7 +29,7 @@ def preprocess(text):
 
 pairs = [
     ["hi|hello|hey|hy|yoh|what's up|hey buddy", ["Hello!", "Hi there!", "Hey!", "Hello, how can I assist you today!"]],
-    ["how are you today|how are you doing|how is you|how do you do5|how are you", ["I'm doing well, thank you!", "I'm great. How about you?", "I'm cool, so what's up?"]],
+    ["how are you today|how is you|how are you doing|how do you do|how are you", ["I'm doing well, thank you!", "I'm great. How about you?", "I'm cool, so what's up?"]],
     ["who is your developer|who developed you|who is your co-founder|who created you", ["I was developed by Harison.O.O.", "My co-founder is Harison.O.O.", "That's a nice question, I was developed by developer Harison.O.O.", "I was developed by developer Harison.O.O."]],
     ["okay|cool|thanks|thank you|your welcome|ok", ["You're welcome, how can I help you today?", "That's awesome", "I appreciate it, I hope you're cool also"]],
     ["what is your name|what is your identity|how do i call you", ["You can simply call me DNI.", "I'm D.N.I chatbot."]],
@@ -42,6 +42,16 @@ pairs = [
 
 chat_history = []
 
+def chatbot_response(user_input):
+    tokens = preprocess(user_input)
+    error_message = "OOPS!! The response seems not to be found."
+    
+    # Loop through pairs and find a match using set intersection
+    return next((random.choice(pair[1]) for pair in pairs
+                 if any(set(preprocess(keyword)).intersection(tokens) 
+                        for keyword in pair[0].lower().split('|'))), error_message)
+
+"""
 def chatbot_response(user_input):
     tokens = preprocess(user_input) 
     response = None
@@ -58,6 +68,7 @@ def chatbot_response(user_input):
     
     # If no response is found, return the error message as the response
     return error_message
+"""
 
 
 @app.route("/")
