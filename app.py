@@ -1,10 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect
-import nltk
-import random
+from fuzzywuzzy import process
 import logging
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -53,12 +49,6 @@ def chatbot_response(user_input):
                  if any(set(preprocess(keyword)).intersection(tokens) 
                         for keyword in pair[0].lower().split('|'))), error_message)
 """
-
-from gensim.models import Word2Vec
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
-
-from fuzzywuzzy import process
     
 pairs = [
     ("what is Python", "Python is a programming language."),
@@ -117,7 +107,7 @@ def history():
 @app.route("/clear_history", methods=["POST"])
 def clear_history():
     global chat_history
-    # chat_history = []
+    chat_history = []
     return redirect(url_for("history"))
 
 if __name__ == "__main__":
