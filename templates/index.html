@@ -53,21 +53,37 @@
             color: red;
         }
 
-        h5, ul, li {
+        h4 {
             line-height: 1.6;
             color: #FF1493;
+        }
+
+        li, h5 {
+            color: greenyellow;
+        }
+
+        h6 {
+            color: aqua;
         }
     </style>
 </head>
 <body>
     <section>
-        <h5 align="center">Chat History</h5>
+        <h4 align="center">Chat History</h4>
         <section> 
             <main>
                 <ul>
                     {% for chat_entry in chat_history %}
-                        <li>User: {{ chat_entry.user_input }}</li>
-                        <li>Bot: {{ chat_entry.response }}</li>
+                        <li>User: </li>
+                            <h6><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                              </svg> {{ chat_entry.user_input }}</h6>
+                        <h5>Bot: </h5>
+                            <h6><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-reply-all-fill" viewBox="0 0 16 16">
+                                <path d="M8.021 11.9 3.453 8.62a.72.72 0 0 1 0-1.238L8.021 4.1a.716.716 0 0 1 1.079.619V6c1.5 0 6 0 7 8-2.5-4.5-7-4-7-4v1.281c0 .56-.606.898-1.079.62z"/>
+                                <path d="M5.232 4.293a.5.5 0 0 1-.106.7L1.114 7.945l-.042.028a.147.147 0 0 0 0 .252l.042.028 4.012 2.954a.5.5 0 1 1-.593.805L.539 9.073a1.147 1.147 0 0 1 0-1.946l3.994-2.94a.5.5 0 0 1 .699.106"/>
+                              </svg> {{ chat_entry.response }}</h6>
+                              <hr><hr>
                     {% endfor %}
                 </ul>
             </main>
