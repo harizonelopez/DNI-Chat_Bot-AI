@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect
 from fuzzywuzzy import process
-import logging
+import logging, random
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -8,22 +8,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'aladinh00-010montext'
 
 """
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('wordnet')
-
-lemmatizer = WordNetLemmatizer()
-stop_words = set(stopwords.words('english'))
-
-def preprocess(text):
-    # Tokenize and lower the text
-    tokens = word_tokenize(text.lower())
-
-    # Remove stopwords and lemmatize each token
-    tokens = [lemmatizer.lemmatize(token) for token in tokens if token.isalpha() and token not in stop_words]
-    
-    return tokens
-
 pairs = [
     ["hi|hello|hey|hy|yoh|what's up|hey buddy", ["Hello!", "Hi there!", "Hey!", "Hello, how can I assist you today!"]],
     ["how are you today|how is you|how are you doing|how do you do|how are you", ["I'm doing well, thank you!", "I'm great. How about you?", "I'm cool, so what's up?"]],
@@ -37,32 +21,18 @@ pairs = [
     ["which programming language were you developed of|which programming language was used in your development", ["I was made using Python language.", "It's primarily based on the Python-Flask framework.", "The base language is Python."]],
     ["what is AI|explain AI|what is artificial intelligence", ["AI stands for Artificial Intelligence, which refers to machines or software mimicking human intelligence.", "Artificial Intelligence involves algorithms that enable machines to solve problems, learn, and make decisions."]],
 ]
-
-chat_history = []
-
-def chatbot_response(user_input):
-    tokens = preprocess(user_input)
-    error_message = "OOPS!! The response seems not to be found."
-    
-    # Loop through pairs and find a match using set intersection
-    return next((random.choice(pair[1]) for pair in pairs
-                 if any(set(preprocess(keyword)).intersection(tokens) 
-                        for keyword in pair[0].lower().split('|'))), error_message)
 """
     
 pairs = [
-    ("what is Python", "Python is a programming language."),
-    ("tell me about Python", "Python is a powerful and versatile programming language."),
-    ("how are you", "I'm just a program, but thanks for asking!"),
-    ("hi", "how can I assist you today!"),
-    ("how is you", "I'm doing well, thank you!"),
-    ("who is your developer", "I was developed by Harison.O.O."),
-    ("your welcome", "You're welcome"),
-    ("what is your name", "You can simply call me DNI AI."),
+    ("what is Python", ["Python is a programming language.", "Python is known for its simplicity and versatility.", "Python is used for web development, AI, and more."]),
+    ("tell me about Python", ["Python is a powerful and versatile programming language.", "Python is great for beginners and professionals alike.", "Python is often used in data science and automation."]),
+    ("how are you", ["I'm just a program, but thanks for asking!", "I’m doing great, how about you?", "I'm fully operational, thanks for asking!"]),
+    ("hi", ["Hello!", "Hi there!", "Hey, how can I assist you today?"]),
+    ("who is your developer", ["I was developed by Harison.O.O.", "Harison.O.O is my creator, a tech enthusiast.", "I owe my existence to Harison.O.O."]),
+    ("what is your name", ["You can simply call me DNI AI.", "My name is DNI AI.", "I'm known as D.N.I AI."]),
 ]
 
 chat_history = []
-
 questions = [question for question, _ in pairs]
 
 def chatbot_response(user_input):
@@ -71,17 +41,11 @@ def chatbot_response(user_input):
     best_question, score = best_match
     
     # If the score is high enough, return the corresponding response
-    if score >= 70:  # You can adjust the threshold as needed
+    if score >= 70: 
         index = questions.index(best_question)
-        return pairs[index][1]
+        return random.choice(pairs[index][1]) # Pick a random response from the list
     
-    return "Sorry, I couldn't find a match."
-
-# Example usage
-user_input = "Can you tell me about Python?"
-response = chatbot_response(user_input)
-print(response) 
-
+    return "Sorry, I couldn't find a response."
 
 @app.route("/")
 def home():
