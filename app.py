@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, request
 from fuzzywuzzy import process
 import logging, random
 

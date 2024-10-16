@@ -30,7 +30,7 @@ The primary goal of this project is to demonstrate the use of Flask for building
 
 - Python 3.x
 - Flask
-- NLTK (Natural Language Toolkit)
+- fuzzywuzzy
 
 ### Steps
 
