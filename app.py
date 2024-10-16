@@ -9,7 +9,7 @@ app.config['SECRET_KEY'] = 'aladinh00-010montext'
     
 pairs = [
     # Basic greetings and interactions
-    ("hi|hello|hey", ["Hello!", "Hi there!", "Hey, how can I assist you today?", "Hi! What's up?"]),
+    ("hi|yoh|yoh man|hy|hello|hey", ["Hello!", "Hi there!", "Hey, how can I assist you today?", "Hi! What's up?"]),
     ("how are you", ["I'm just a program, but thanks for asking!", "I’m doing great, how about you?", "I'm fully operational, thanks for asking!"]),
     ("good morning|morning", ["Good morning! How can I help you today?", "Morning! I hope you have a great day!", "Good morning, ready to learn something new?"]),
     ("good night|night", ["Good night! Take care.", "Good night, talk to you soon!", "Good night, don't let the bugs bite (the programming kind)!"]),
@@ -38,7 +38,7 @@ pairs = [
     
     # Farewell phrases
     ("goodbye|bye|see you", ["Goodbye!", "Bye! Hope to talk again soon.", "See you later!", "Take care, until next time!"]),
-    ("quit|exit|close", ["Goodbye!", "Closing now, take care!", "Bye! Hope to see you again soon."]),
+    ("quit|exit|q|close", ["Goodbye!", "Closing now, take care!", "Bye! Hope to see you again soon."]),
     
     # Questions about the chatbot’s abilities
     ("what can you do", ["I can help answer questions about programming and technology.", "I’m here to assist you with tech-related queries.", "I can chat with you, answer questions, and provide tech knowledge."]),
@@ -81,7 +81,7 @@ def chat():
 def history():    
     return render_template('index.html', chat_history=chat_history)
 
-@app.route("/clear_history", methods=["POST"])
+@app.route("/clear_history")
 def clear_history():
     global chat_history
     chat_history = []

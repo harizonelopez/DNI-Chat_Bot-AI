@@ -87,13 +87,8 @@
                     {% endfor %}
                 </ul>
             </main>
-            <form action="/clear_history" method="POST" align="center">
-                <input
-                    type="submit"
-                    value="Clear History">
-            </form>
+            <h5 align="center"><button type="submit" class="btn btn-primary"><a href = "{{ url_for('clear_history') }}">Clear</a></button></h5>
         </section>
-        <h5 align="center"><button class="btn btn-primary"><a href = "{{ url_for('home') }}">Home</a></button></h5>
         <footer>
             <p>&copy; 2024 Dev_aladinh production</p>
         </footer>
