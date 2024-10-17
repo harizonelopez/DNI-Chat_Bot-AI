@@ -1,6 +1,6 @@
-# D.N.I. Chatbot
+# DNI AI Chatbot
 
-**D.N.I. (Dignity Natures Your Identity) Chatbot** is a simple web-based chatbot application developed using Python and the Flask framework. The chatbot is designed to handle basic conversational interactions using predefined responses and NLTK's `Chat` utility.
+**DNI (Dignity Natures Your Identity) Chatbot** is a simple web-based chatbot application developed using Python and the Flask framework. The chatbot is designed to handle the conversational interactions using predefined responses by use of fuzzywuzzy process response utility.
 
 ## Table of Contents
 
@@ -22,7 +22,12 @@ The primary goal of this project is to demonstrate the use of Flask for building
 - **Simple Conversations**: The chatbot can handle greetings, questions about its identity, and basic information.
 - **Predefined Responses**: Uses a set of predefined responses based on keywords and patterns.
 - **Chat History**: Displays the chat history for the current session.
-- **Clear History**: Provides an option to clear the chat history.
+- **Contextual Conversations**: Tracks the context of the conversation, allowing for relevant follow-up responses.
+- **Learning Mode**: Offers interactive programming-related guidance and explanations, helping users learn Python and technology concepts.
+- **Error Handling Assistance**: Helps users troubleshoot programming errors by recognizing common mistakes and offering suggestions.
+- **Dynamic Topic Suggestions**: After answering a query, the chatbot can suggest related topics for further exploration.
+- **Natural Language Programming**: Users can describe tasks in natural language, and the chatbot translates them into Python code snippets.
+
 
 ## Installation
 
