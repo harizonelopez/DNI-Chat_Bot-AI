@@ -9,7 +9,7 @@ app.config['SECRET_KEY'] = 'aladinh00-010montext'
     
 pairs = [
     # Basic greetings and interactions
-    ("hi|yoh|yoh man|hy|hello|hey", ["Hello!", "Hi there!", "Hey, how can I assist you today?", "Hi! What's up?"]),
+    ("yoh|hi|hy|hello", ["Hello!", "Hi there!", "Hey, how can I assist you today?", "Hi! What's up?"]),
     ("how are you|how are you doing", ["I'm just a program, but thanks for asking!", "I’m doing great, how about you?", "I'm fully operational, thanks for asking!"]),
     ("good morning|morning", ["Good morning! How can I help you today?", "Morning! I hope you have a great day!", "Good morning, ready to learn something new?"]),
     ("good night|night", ["Good night! Take care.", "Good night, talk to you soon!", "Good night, don't let the bugs bite (the programming kind)!"]),
@@ -37,7 +37,7 @@ pairs = [
     
     # Farewell phrases
     ("goodbye|bye|see you", ["Goodbye!", "Bye! Hope to talk again soon.", "See you later!", "Take care, until next time!"]),
-    ("quit|exit|q|close", ["Goodbye!", "Closing now, take care!", "Bye! Hope to see you again soon."]),
+    ("quit|exit|close", ["Goodbye!", "Closing now, take care!", "Bye! Hope to see you again soon."]),
     
     # Questions about the chatbot’s abilities
     ("what can you do", ["I can help answer questions about programming and technology.", "I’m here to assist you with tech-related queries.", "I can chat with you, answer questions, and provide tech knowledge."]),
@@ -46,12 +46,24 @@ pairs = [
 
 chat_history = []
 questions = [question for question, _ in pairs]
+previous_question = None
 
 def chatbot_response(user_input):
+    global previous_question
     # Normaliza the input by converting it to lower case and getting rid of the spaces by striping the words
     normalized_input = user_input.lower().strip()
 
     time.sleep(1)
+
+    if previous_question:
+        if "it" in normalized_input or "this" in normalized_input:
+            # Check if the previous question was about Python
+            if "python" in previous_question:
+                return "With Python, you can build web apps, automate tasks, analyze data, create AI models, and more!"
+            # Check if the previous question was about AI
+            elif "ai" in previous_question or "artificial intelligence" in previous_question:
+                return "AI can be used in a wide range of applications, from self-driving cars to intelligent chatbots like me!"
+            # Add more contextual responses based on other topics as needed
 
     # Get the best match for the user input
     best_match = process.extractOne(normalized_input, questions)
@@ -59,6 +71,9 @@ def chatbot_response(user_input):
     
     # If the score is high enough, return the corresponding response
     if score >= 70: 
+        # Save the current question as the previous question for context tracking
+        previous_question = best_question
+
         index = questions.index(best_question)
         return random.choice(pairs[index][1]) # Pick a random response from the list
     
@@ -70,7 +85,9 @@ def home():
 
 @app.route("/chat", methods=["POST"])
 def chat():
+    global previous_question
     user_input = request.form.get("user_input").strip()
+
     if not user_input:
         response = "Please enter a valid message"
     else:
@@ -87,8 +104,9 @@ def history():
 
 @app.route("/clear_history")
 def clear_history():
-    global chat_history
+    global chat_history, previous_question
     chat_history = []
+    previous_question = None # Resets the context when clearing chat history
     return redirect(url_for("history"))
 
 if __name__ == "__main__":
